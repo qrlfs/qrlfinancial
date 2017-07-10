@@ -13,8 +13,7 @@ function activate_login() {
       //dim background
       $("body").prepend("<div id='login_active_bg' class='login_active' onclick='deactivate_login();'></div>")
       //move login
-      $("#login_box").addClass("login_active");  
-      $("#login_user_name").focus();      
+      $("#login_box").addClass("login_active"); 
     }    
   } else {
     //user is logged in; forward them to partner home
