@@ -15,8 +15,10 @@ $(document).ready(function() {
   if ($(".hide-menu").length) {
     $("ul#mynav").addClass("invis");
   };
-  $("body>div.container-full:last-of-type").before("<div id='qrl-footer'></div>");
-  $("#qrl-footer").append($("body>div.container-full:last-of-type"));
+  var foot = $("body>div.container-full:last-of-type");
+  foot.attr("id", "qrl-footer");
+  foot.before("<div id='qrl-footer-wrap'></div>");
+  $("#qrl-footer-wrap").append(foot);
 });
 function activate_login() {
   var login = $("#login_box");  
