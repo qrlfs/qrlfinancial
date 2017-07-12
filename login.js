@@ -9,10 +9,10 @@ $(document).ready(function() {
       return false;
     }); 
   };
-  if ($("#hide-login").length) {
+  if ($(".hide-login").length) {
     $("#login_box").addClass("invis");
   }
-  if ($("#hide-menu").length) {
+  if ($(".hide-menu").length) {
     $("#ul.mynav").addClass("invis");
   }
 });
