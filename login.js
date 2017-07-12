@@ -9,6 +9,12 @@ $(document).ready(function() {
       return false;
     }); 
   };
+  if ($("#hide-login").length) {
+    $("#login_box").addClass("invis");
+  }
+  if ($("#hide-menu").length) {
+    $("#ul.mynav").addClass("invis");
+  }
 });
 function activate_login() {
   var login = $("#login_box");  
