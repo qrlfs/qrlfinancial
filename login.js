@@ -15,7 +15,7 @@ $(document).ready(function() {
   if ($(".hide-menu").length) {
     $("ul#mynav").addClass("invis");
   };
-  $("body").append("<div id='qrl-footer'></div>");
+  $("body>div.container-full:last-of-type").before("<div id='qrl-footer'></div>");
   $("#qrl-footer").append($("body>div.container-full:last-of-type"));
 });
 function activate_login() {
