@@ -1,6 +1,14 @@
 $(document).ready(function() {
   $("#login_box form input").attr("onfocus", "activate_login();")
   $("#login_box button[type='submit']").after("<a href='passwordhelp' class='pw_help glyphicon glyphicon-question-sign'></a>");
+  if ($("#faq-link").length) {
+    $("#faq-link").click(function(){
+      $('html, body').animate({
+        scrollTop: $( $.attr(this, 'href') ).offset().top
+      }, 500);
+      return false;
+    }); 
+  };
 });
 function activate_login() {
   var login = $("#login_box");  
@@ -25,3 +33,4 @@ function deactivate_login() {
   $("#login_active_bg").remove();
   $("#login_box").removeClass("login_active"); 
 }
+
