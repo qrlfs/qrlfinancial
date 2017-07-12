@@ -17,7 +17,7 @@ $(document).ready(function() {
     $("nav.navbar>.container>.navbar-header").addClass("invis");
   };
   if ($(".contact-form").length) {
-    $(".panel>.primary_color_bk>.panel-body>form").attr("id", "qrl-contact-form");
+    $(".panel>.panel-body>form").attr("id", "qrl-contact-form");
     $(".panel>.primary_color_bk").css("display", "none");
   };
   $("body>div.container-full:last-of-type").attr("id", "qrl-footer"); 
