@@ -11,11 +11,10 @@ $(document).ready(function() {
   };
   if ($(".hide-login").length) {
     $("#login_box").addClass("invis");
-    console.log("worked");
-  } else { console.log("failed"); }
+  };
   if ($(".hide-menu").length) {
-    $("#ul.mynav").addClass("invis");
-  }
+    $("ul#mynav").addClass("invis");
+  };
 });
 function activate_login() {
   var login = $("#login_box");  
