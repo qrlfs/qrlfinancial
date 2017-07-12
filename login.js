@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $('span.gray_text:contains("{{Copyright}}")').html('&copy; ' + (new Date).getFullYear() + ' QRL Financial Services, a division of First Federal Bank of Florida');
   $("#login_box form input").attr("onfocus", "activate_login();")
   $("#login_box button[type='submit']").after("<a href='passwordhelp' class='pw_help glyphicon glyphicon-question-sign'></a>");
   if ($("#faq-link").length) {
