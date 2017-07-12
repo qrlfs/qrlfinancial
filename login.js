@@ -14,6 +14,7 @@ $(document).ready(function() {
   };
   if ($(".hide-menu").length) {
     $("ul#mynav").addClass("invis");
+    $("nav.navbar>.container>.navbar-header").addClass("invis");
   };
   $("body>div.container-full:last-of-type").attr("id", "qrl-footer"); 
   $("body").children().wrapAll("<div id='qrl-wrapper'></div>"); 
