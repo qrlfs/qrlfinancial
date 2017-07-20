@@ -24,6 +24,7 @@ $(document).ready(function() {
   if ($(".contact-form").length) {
     $(".panel>.panel-body>form").attr("id", "qrl-contact-form");
     $(".panel>.primary_color_bk").css("display", "none");
+    $("#bodypanel .col-md-12 .panel.panel-default").addClass("body-wrap-fix");
   };
   // configure footer
   $("span.gray_text:contains('© Copyright')").html("&copy; " + (new Date).getFullYear() + " QRL Financial Services, a division of First Federal Bank of Florida");
