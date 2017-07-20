@@ -38,7 +38,7 @@ $(document).ready(function() {
   if ($(".partner-home").length) {
     $("#bodypanel").addClass("body-panel-fix");
     $($("#bodypanel .row")[0]).addClass("partner-home-wrap");
-    $(".partner-home-wrap>.col-md-3").addClass("partner-home-col-1").addr("id", "collapsePipe");
+    $(".partner-home-wrap>.col-md-3").addClass("partner-home-col-1").attr("id", "collapsePipe");
     $(".partner-home-wrap>.col-md-9").addClass("partner-home-col-2");
     $(".partner-home-col-2").prepend("<a class='btn btn-default side-handle' role='button' data-toggle='collapse' href='#collapsePipe' aria-expanded='false' aria-controls='collapsePipe'></div>");
   }
