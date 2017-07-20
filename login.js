@@ -36,6 +36,7 @@ $(document).ready(function() {
   });
   // configure partner home
   if ($(".partner-home").length) {
+    $("#bodypanel").addClass("body-panel-fix");
     $($("#bodypanel .row")[0]).addClass("partner-home-wrap");
     $(".partner-home-wrap>.col-md-3").addClass("partner-home-col-1");
     $(".partner-home-wrap>.col-md-9").addClass("partner-home-col-2");
