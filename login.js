@@ -46,7 +46,7 @@ $(document).ready(function() {
   // configure document group pages
   if ($(".document-group").length) {
     $("#bodypanel h3").addClass("h1");
-    $("#bodypanel table").removeAttributes();
+    $("#bodypanel table").removeAttr("width").removeAttr("border").removeAttr("cellspacing").removeAttr("cellpadding");
     $("#bodypanel table td").removeAttr("width");
     $("#bodypanel table td a").removeAttr("onclick");
     $("#bodypanel table").addClass("dg-table"); 
@@ -79,15 +79,4 @@ function deactivate_login() {
   //remove animated login elements
   $("#login_active_bg").remove();
   $("#login_box").removeClass("login_active"); 
-}
-jQuery.fn.removeAttributes = function() {
-  return this.each(function() {
-    var attributes = $.map(this.attributes, function(item) {
-      return item.name;
-    });
-    var img = $(this);
-    $.each(attributes, function(i, item) {
-    img.removeAttr(item);
-    });
-  });
 }
