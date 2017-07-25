@@ -2,7 +2,7 @@
 $(document).ready(function() {
   // configure login
   $("#login_box form input").attr("onfocus", "activate_login();")
-  $(".site_logo").attr("href", "/index");
+  //$(".site_logo").attr("href", "/index");
   $("#login_box button[type='submit']").after("<a href='/PasswordHelp' class='pw_help glyphicon glyphicon-question-sign'></a>");
   if ($(".hide-login").length) {
     $("#login_box").addClass("invis");
