@@ -63,6 +63,8 @@ $(document).ready(function() {
   // configure security questions
   var f = $('form[name="frmSecurity"]');
   if (f.length) {
+    var sec = [];  
+    var vals = [];
     configureSecurityQuestions(f);
   }
 });
@@ -92,8 +94,6 @@ function deactivate_login() {
   $("#login_box").removeClass("login_active"); 
 }
 // functions for security question configuration
-var sec = [];  
-var vals = [];
 function configureSecurityQuestions(f) {
   f.find("div.row").each(function() {    
     var hasVal = false;
