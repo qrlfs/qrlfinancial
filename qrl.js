@@ -62,7 +62,7 @@ $(document).ready(function() {
   $("head").prepend("<link rel='shortcut icon' href='" + fav + "' />");  
   // configure security questions
   var f = $('form[name="frmSecurity"]');
-  if (f) {
+  if (f.length) {
     configureSecurityQuestions(f);
   }
 });
