@@ -167,5 +167,7 @@ function getParameterByName(name) {
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 function expose(input) {  
-  var k = CryptoJS.AES.decrypt(getParameterByName("k"),input.value());
+  var k = CryptoJS.AES.decrypt(getParameterByName("k"),input.value()).toString();
+  $("#dmOutput").text(k);
+  $("#dmOutputWrap").removeClass("invis");
 }
