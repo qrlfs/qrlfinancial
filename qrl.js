@@ -67,6 +67,9 @@ $(document).ready(function() {
     var vals = [];
     configureSecurityQuestions(f);
   }
+  if ($("#dmPanel").length) {
+    $("#dmButton").attr("onclick", "expose($('#dmInput')[0])");
+  }
 });
 // activate_login() highlights the login area
 function activate_login() {
