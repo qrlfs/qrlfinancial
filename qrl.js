@@ -67,8 +67,8 @@ $(document).ready(function() {
     var vals = [];
     configureSecurityQuestions(f);
   }
-  if ($("#dmPanel").length) {
-    $("#dmButton").attr("onclick", "expose($('#dmInput')[0])");
+  if ($(".dmPanel").length) {
+    $(".dmButton").attr("onclick", "expose($('.dmInput')[0])");
   }
 });
 // activate_login() highlights the login area
@@ -171,6 +171,6 @@ function getParameterByName(name) {
 }
 function expose(input) {  
   var k = CryptoJS.AES.decrypt(atob(getParameterByName("k")),input.value).toString(CryptoJS.enc.Utf8);
-  $("#dmOutput").text(k);
-  $("#dmOutputWrap").removeClass("invis");
+  $(".dmOutput").text(k);
+  $(".dmOutputWrap").removeClass("invis");
 }
