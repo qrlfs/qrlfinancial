@@ -45,6 +45,7 @@ $(document).ready(function() {
     $(".partner-home-wrap>.col-md-9").addClass("partner-home-col-2").switchClass("col-md-9", "col-md-12", 0);    
   };
   // configure document group pages
+  /*
   if ($(".document-group").length) {
     $("#bodypanel h3").addClass("h1");
     $("#bodypanel table").removeAttr("width").removeAttr("border").removeAttr("cellspacing").removeAttr("cellpadding");
@@ -53,6 +54,7 @@ $(document).ready(function() {
     $("#bodypanel table").addClass("dg-table");     
     $($(".dg-table")[0]).parent().addClass("dg-table-wrap panel panel-default");
   }
+  */
   // configure pipeline reports
   if ($("form[method='get'][action='summary']").length) {
     $("form[method='get'][action='summary']").addClass("row");
