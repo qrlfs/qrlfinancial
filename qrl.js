@@ -55,6 +55,23 @@ $(document).ready(function() {
     $($(".dg-table")[0]).parent().addClass("dg-table-wrap panel panel-default");
   }
   */
+  // add announcement year selector
+annSel = $("#select-announcement-year");
+if (annSel.length) {
+  // add year options
+  y = 2007;
+  do {
+    annSel.append($("<option>", {
+      value: y,
+      text: y
+    }));
+    y++;
+  }
+  while (y <= (new Date().getFullYear()));
+  annSel.val(annSel.attr("currentYear"));
+  // add onchange event
+  annSel.attr("onchange", "window.location.href='/Partner/Announcements/' + this.value.toString();")
+}
   // configure pipeline reports
   if ($("form[method='get'][action='summary']").length) {
     $("form[method='get'][action='summary']").addClass("row");
