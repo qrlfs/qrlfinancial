@@ -37,6 +37,7 @@ $(document).ready(function() {
   $("#qrl-footer a").each(function() {
     $(this).text($(this).text().trim());
   });
+  /*
   // configure partner home
   if ($(".partner-home").length) {
     $("#bodypanel").addClass("body-panel-fix");
@@ -44,8 +45,7 @@ $(document).ready(function() {
     $(".partner-home-wrap>.col-md-3").addClass("invis");
     $(".partner-home-wrap>.col-md-9").addClass("partner-home-col-2").switchClass("col-md-9", "col-md-12", 0);    
   };
-  // configure document group pages
-  /*
+  // configure document group pages  
   if ($(".document-group").length) {
     $("#bodypanel h3").addClass("h1");
     $("#bodypanel table").removeAttr("width").removeAttr("border").removeAttr("cellspacing").removeAttr("cellpadding");
