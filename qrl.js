@@ -36,7 +36,7 @@ $(document).ready(function() {
   });
   $("#qrl-footer a").each(function() {
     $(this).text($(this).text().trim());
-  });
+  });  
   /*
   // configure partner home
   if ($(".partner-home").length) {
