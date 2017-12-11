@@ -37,41 +37,23 @@ $(document).ready(function() {
   $("#qrl-footer a").each(function() {
     $(this).text($(this).text().trim());
   });  
-  /*
-  // configure partner home
-  if ($(".partner-home").length) {
-    $("#bodypanel").addClass("body-panel-fix");
-    $($("#bodypanel .row")[0]).addClass("partner-home-wrap");
-    $(".partner-home-wrap>.col-md-3").addClass("invis");
-    $(".partner-home-wrap>.col-md-9").addClass("partner-home-col-2").switchClass("col-md-9", "col-md-12", 0);    
-  };
-  // configure document group pages  
-  if ($(".document-group").length) {
-    $("#bodypanel h3").addClass("h1");
-    $("#bodypanel table").removeAttr("width").removeAttr("border").removeAttr("cellspacing").removeAttr("cellpadding");
-    $("#bodypanel table td").removeAttr("width");
-    $("#bodypanel table td a").removeAttr("onclick");
-    $("#bodypanel table").addClass("dg-table");     
-    $($(".dg-table")[0]).parent().addClass("dg-table-wrap panel panel-default");
-  }
-  */
   // add announcement year selector
-annSel = $("#select-announcement-year");
-if (annSel.length) {
-  // add year options
-  y = 2007;
-  do {
-    annSel.append($("<option>", {
-      value: y,
-      text: y
-    }));
-    y++;
+  annSel = $("#select-announcement-year");
+  if (annSel.length) {
+    // add year options
+    y = 2007;
+    do {
+      annSel.append($("<option>", {
+        value: y,
+        text: y
+      }));
+      y++;
+    }
+    while (y <= (new Date().getFullYear()));
+    annSel.val(annSel.attr("currentYear"));
+    // add onchange event
+    annSel.attr("onchange", "window.location.href='/Partner/Announcements/' + this.value.toString();")
   }
-  while (y <= (new Date().getFullYear()));
-  annSel.val(annSel.attr("currentYear"));
-  // add onchange event
-  annSel.attr("onchange", "window.location.href='/Partner/Announcements/' + this.value.toString();")
-}
   // configure pipeline reports
   if ($("form[method='get'][action='summary']").length) {
     $("form[method='get'][action='summary']").addClass("row");
@@ -92,28 +74,38 @@ if (annSel.length) {
 });
 // activate_login() highlights the login area
 function activate_login() {
-  var login = $("#login_box");  
-  if (login.find('button[type="submit"]').length) {
-    //login is available
-    if ($("#login_box.login_active").length) {
-      //login is already active; do nothing
-    } else {
-      //configure the login animation
-      //dim background
-      $("body").prepend("<div id='login_active_bg' class='login_active' onclick='deactivate_login();'></div>")
-      //move login
-      $("#login_box").addClass("login_active"); 
-    }    
+  if ($("#login_box.login_active").length) {
+  //login is already active; do nothing
   } else {
-    //user is logged in; forward them to partner home
-    window.location = "home";
-  }
+    //configure the login animation
+    //dim background
+    $("body").prepend("<div id='login_active_bg' class='login_active' onclick='deactivate_login();'></div>")
+    //move login
+    $("#login_box").addClass("login_active"); 
+  }   
 }
 // deactivate_login() un-highlights the login area
 function deactivate_login() {
   //remove animated login elements
   $("#login_active_bg").remove();
   $("#login_box").removeClass("login_active"); 
+}
+// determines if the login form is available
+function login_available() {
+  var login = $("#login_box");  
+  if (login.find('button[type="submit"]').length) {
+    return true;
+  } else {
+    return false;
+  }
+}
+// home page Partner callout click functionality
+function partner_click() {
+  if (login_available()) {
+    $("#login_user_name").focus();
+  } else {
+     window.location.href = "/Partner/Home";
+  }
 }
 // functions for security question configuration
 function configureSecurityQuestions(f) {
