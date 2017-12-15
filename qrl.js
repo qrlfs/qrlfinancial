@@ -92,8 +92,7 @@ $(document).ready(function() {
     });
     $('.integer').each(function(){
       new AutoNumeric($(this).get(0),{
-        decimalPlaces: 0, 
-        selectOnFocus: true
+        decimalPlaces: 0
       });
     });
     $('.total-int').each(function(){
