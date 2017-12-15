@@ -71,6 +71,23 @@ $(document).ready(function() {
   if ($(".dmPanel").length) {
     $(".dmButton").attr("onclick", "expose($('.dmInput')[0])");
   }
+  // initialize cost-to-service calculator
+  if ($(".cost-to-service").length) {
+    // add math functions on blur
+    $(".cost-to-service #portfolio input").attr("onblur", "updatePortfolio();");
+    $(".cost-to-service #staffing input").attr("onblur", "updateStaffing();");
+    $(".cost-to-service #processing input").attr("onblur", "updateProcessing();");
+    $(".cost-to-service #direct input").attr("onblur", "updateDirect();");
+    $(".cost-to-service #summary input").attr("onblur", "updateSummary();");
+    // initialize autoNumeric
+    AutoNumeric.multiple(".currency", { maximumValue: 9999999999 });
+    AutoNumeric.multiple(".percent", { maximumValue: 100 });
+    AutoNumeric.multiple(".integer", AutoNumeric.getPredefinedOptions().integerPos);
+    AutoNumeric.multiple(".total-int", { noEventListeners: true, decimalPlaces: 0, maximumValue: 9999999999 });
+    AutoNumeric.multiple(".total-cur", { noEventListeners: true, maximumValue: 9999999999 });    
+    // initialize tooltips
+    $('[data-toggle="tooltip"]').tooltip() 
+  }
 });
 // activate_login() highlights the login area
 function activate_login() {
@@ -185,3 +202,111 @@ function expose(input) {
   $(".dmOutput").text(k);
   $(".dmOutputWrap").removeClass("invis");
 }
+// cost to service calculator functions
+function anGet(e) {
+    return AutoNumeric.getAutoNumericElement(e);
+  }
+  function updatePortfolio() {    
+    anGet(numTotal).set(
+      (      
+        anGet(numFixed).getNumber()
+        + anGet(numARM).getNumber()
+      )
+    );
+    anGet(numTotalDelinquent).set(
+      (
+        anGet(numDelinquent).getNumber()
+        + anGet(numBankrupt).getNumber()
+        + anGet(numForclosure).getNumber()
+        + anGet(numFormal).getNumber()
+        + anGet(numInformal).getNumber()
+        + anGet(numLossMit).getNumber()      
+      )
+    );
+    updateSummary();
+  }
+  function updateStaffing() {
+    var totalSal = 0;
+    for (i = 1; i < 10; i++) {
+      var empSal = 
+        anGet(document.getElementById("staff0" + i + "-sal")).getNumber()
+        * anGet(document.getElementById("staff0" + i + "-pct")).getNumber()
+        / 100;       
+      anGet(document.getElementById("staff0" + i + "-sub")).set(empSal);
+      totalSal += empSal;
+    };
+    anGet(totalSalary).set(totalSal);
+    anGet(fringeDol).set(totalSal * anGet(fringePct).getNumber() / 100);
+    anGet(trainingDol).set(totalSal * anGet(trainingPct).getNumber() / 100);
+    anGet(totalStaffing).set(
+      totalSal
+      + anGet(fringeDol).getNumber()
+      + anGet(trainingDol).getNumber()
+      + anGet(overtime).getNumber()
+      + anGet(payrollTaxes).getNumber()
+      + anGet(recruiting).getNumber()
+    );
+    updateSummary();
+  }
+  function updateProcessing() {
+    anGet(totalOccupancy).set(
+      anGet(numFTE).getNumber()
+      * anGet(sqFt).getNumber()
+      * anGet(sqFtCost).getNumber()
+    );
+    anGet(pcTotal).set(
+      anGet(pcCost).getNumber()
+      * anGet(numFTE).getNumber()
+    );
+    anGet(totalProcessing).set(
+      anGet(pcTotal).getNumber()
+      + anGet(copyMachine).getNumber()
+      + anGet(mainframe).getNumber()
+      + anGet(licensing).getNumber()
+      + anGet(furniture).getNumber()      
+    );
+    updateSummary();
+  }
+  function updateDirect() {  
+    anGet(totalDirect).set(
+      anGet(tempServices).getNumber()
+      + anGet(contactServices).getNumber()
+      + anGet(travel).getNumber()
+      + anGet(postage).getNumber()
+      + anGet(printing).getNumber()  
+      + anGet(telephone).getNumber()
+      + anGet(officeSupplies).getNumber()
+      + anGet(lockboxFees).getNumber()
+      + anGet(legalFees).getNumber()  
+      + anGet(bankingFees).getNumber()
+      + anGet(membership).getNumber()
+      + anGet(defaultExpenses).getNumber()
+      + anGet(checkDisbursement).getNumber()  
+      + anGet(otherChargebacks).getNumber()  
+    );
+    updateSummary();
+  }
+  function updateSummary() {
+    var staffing = anGet(totalStaffing).getNumber();
+    anGet(totalStaffingSummary).set(staffing);
+    var occupancy = anGet(totalOccupancy).getNumber();
+    anGet(totalOccupancySummary).set(occupancy);
+    var processing = anGet(totalProcessing).getNumber();
+    anGet(totalProcessingSummary).set(processing);
+    var direct = anGet(totalDirect).getNumber();
+    anGet(totalDirectSummary).set(direct);
+    var totalExpenses = staffing + occupancy + processing + direct;
+    anGet(totalServicingSummary).set(totalExpenses);
+    var count = anGet(numTotal).getNumber();
+    anGet(totalCountSummary).set(count);
+    var cts = totalExpenses / count
+    anGet(annualized).set(cts);
+    var vari = cts - anGet(quote).getNumber();
+    anGet(variance).set(vari);
+    anGet(impact).set(vari * count);
+    if (vari >= 0) {
+      $("#impact").switchClass("danger", "success");
+    } else {
+      $("#impact").switchClass("success", "danger");    
+    }
+  }
