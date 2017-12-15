@@ -85,8 +85,6 @@ $(document).ready(function() {
     AutoNumeric.multiple(".integer", AutoNumeric.getPredefinedOptions().integerPos);
     AutoNumeric.multiple(".total-int", { noEventListeners: true, decimalPlaces: 0, maximumValue: 9999999999 });
     AutoNumeric.multiple(".total-cur", { noEventListeners: true, maximumValue: 9999999999 });    
-    // initialize tooltips
-    $('[data-toggle="tooltip"]').tooltip() 
   }
 });
 // activate_login() highlights the login area
@@ -299,7 +297,10 @@ function anGet(e) {
     anGet(totalServicingSummary).set(totalExpenses);
     var count = anGet(numTotal).getNumber();
     anGet(totalCountSummary).set(count);
-    var cts = totalExpenses / count
+    var cts = 0
+    if (count > 0) { 
+      cts = totalExpenses / count 
+    }
     anGet(annualized).set(cts);
     var vari = cts - anGet(quote).getNumber();
     anGet(variance).set(vari);
