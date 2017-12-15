@@ -79,12 +79,47 @@ $(document).ready(function() {
     $(".cost-to-service #processing input").attr("onblur", "updateProcessing();");
     $(".cost-to-service #direct input").attr("onblur", "updateDirect();");
     $(".cost-to-service #summary input").attr("onblur", "updateSummary();");
-    // initialize autoNumeric
-    AutoNumeric.multiple(".currency", { maximumValue: 9999999999 });
-    AutoNumeric.multiple(".percent", { maximumValue: 100 });
-    AutoNumeric.multiple(".integer", AutoNumeric.getPredefinedOptions().integerPos);
-    AutoNumeric.multiple(".total-int", { noEventListeners: true, decimalPlaces: 0, maximumValue: 9999999999 });
-    AutoNumeric.multiple(".total-cur", { noEventListeners: true, maximumValue: 9999999999 });    
+    // initialize autoNumeric    
+    $('.currency').each(function(){
+      new AutoNumeric($(this).get(0),{
+        maximumValue: 9999999999
+      });
+    });
+    $('.percent').each(function(){
+      new AutoNumeric($(this).get(0),{
+        maximumValue: 100
+      });
+    });
+    $('.integer').each(function(){
+      new AutoNumeric($(this).get(0),{
+        decimalPlaces: 0, 
+        selectOnFocus: true
+      });
+    });
+    $('.total-int').each(function(){
+      new AutoNumeric($(this).get(0),{
+        noEventListeners: true, 
+        decimalPlaces: 0, 
+        maximumValue: 9999999999
+      });
+    });
+    $('.total-cur').each(function(){
+      new AutoNumeric($(this).get(0),{
+        noEventListeners: true, maximumValue: 9999999999
+      });
+    });    
+    // select input text on focus
+    $(".cost-to-service input[type=text]").focus(function() {
+        if(!$(this).hasClass("selected")) {
+            $(this).select();
+            $(this).addClass("selected");
+        }
+    });
+    $(".cost-to-service input[type=text]").blur(function() {
+        if($(this).hasClass("selected")) {
+            $(this).removeClass("selected");
+        }
+    });
   }
 });
 // activate_login() highlights the login area
