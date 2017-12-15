@@ -119,6 +119,22 @@ $(document).ready(function() {
             $(this).removeClass("selected");
         }
     });
+    // add navigation for stripped js
+    $(".nav-portfolio").click(function() {
+      $(".calc-nav a[href='#portfolio']").tab("show");
+    });
+    $(".nav-staffing").click(function() {
+      $(".calc-nav a[href='#staffing']").tab("show");
+    });
+    $(".nav-processing").click(function() {
+      $(".calc-nav a[href='#processing']").tab("show");
+    });
+    $(".nav-direct").click(function() {
+      $(".calc-nav a[href='#direct']").tab("show");
+    });
+    $(".nav-summary").click(function() {
+      $(".calc-nav a[href='#summary']").tab("show");
+    });
   }
 });
 // activate_login() highlights the login area
