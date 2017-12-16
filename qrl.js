@@ -71,6 +71,9 @@ $(document).ready(function() {
   if ($(".dmPanel").length) {
     $(".dmButton").attr("onclick", "expose($('.dmInput')[0])");
   }
+  if ($(".contact-redirect").length) {
+    window.location = "/contact"; 
+  }
   // initialize cost-to-service calculator
   if ($(".cost-to-service").length) {
     // add math functions on blur
