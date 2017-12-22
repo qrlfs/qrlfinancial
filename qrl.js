@@ -74,6 +74,10 @@ $(document).ready(function() {
   if ($(".contact-redirect").length) {
     window.location = "/contact"; 
   }
+  if ($(".resources_wrap").length) {
+    var r = window.location.href.replace("#", "");
+    $("#resource" + r).collapse("show");
+  }
   // initialize cost-to-service calculator
   if ($(".cost-to-service").length) {
     // add math functions on blur
