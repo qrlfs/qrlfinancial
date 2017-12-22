@@ -75,7 +75,7 @@ $(document).ready(function() {
     window.location = "/contact"; 
   }
   if ($(".resources_wrap").length) {
-    var r = window.location.href.replace("#", "");
+    var r = window.location.hash.replace("#", "");
     $("#resource" + r).collapse("show");
   }
   // initialize cost-to-service calculator
