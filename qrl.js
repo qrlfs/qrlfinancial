@@ -324,3 +324,9 @@ function updateSummary() {
     $("#impact").switchClass("success", "danger");    
   }
 }
+function searchNumber() {
+  window.location = "/summary?query_id=663219&searchCall=leftmenu&columns=Loan+Number%2CBorrower+Name%2CStatus%2CLoan+Purpose%2CLoan+Amount%2CLock+Expires&ihm_query=" + encodeURIComponent($("#txtSearchLoanNumber").val())
+}
+function searchName() {
+  window.location = "/summary?query_id=149&searchCall=leftmenu&columns=Loan+Number%2CBorrower+Name%2CStatus%2CLoan+Purpose%2CLoan+Amount%2CLock+Expires&ihm_query_last_name=" + encodeURIComponent($("#txtSearchLastName").val())
+}
