@@ -72,7 +72,7 @@ $(document).ready(function() {
         pipeh3.text("Pended Loans (UW and PC)");      
         break;
       case "10292957":
-        pipeh3.text("Locked oans");      
+        pipeh3.text("Locked Loans");      
         break;
       case "10292963":
         pipeh3.text("Cancelled & Denied (Last 90 Days)");      
