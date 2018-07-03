@@ -27,7 +27,7 @@ $(document).ready(function() {
     $("#bodypanel .col-md-12 .panel.panel-default").addClass("body-wrap-fix");
   };
   // configure footer
-  $("span.gray_text:contains('© Copyright')").html("&copy; " + (new Date).getFullYear() + " QRL Financial Services, a division of First Federal Bank of Florida");
+  $("span.gray_text:contains('© Copyright')").html("&copy; " + (new Date).getFullYear() + " QRL Financial Services, a division of First Federal Bank");
   $("body>div.container-full").last().attr("id", "qrl-footer"); 
   $("body").children().wrapAll("<div id='qrl-wrapper'></div>"); 
   $("#qrl-footer *:contains('|')").each(function() {    
