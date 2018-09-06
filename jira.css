@@ -112,7 +112,9 @@ table.aui>tbody>tr>td
     padding: 3px 10px!important;
     font-size: 13px!important;
 }
-.aui-page-fixed .aui-page-panel-inner {
+.aui-page-fixed .aui-page-panel-inner, .aui-page-header-inner.cv-page-title-inner {
     width: 100% !important;
+}
+.cv-global-level-header, .aui-page-panel-content {
     padding: 0 30px !important;
 }
