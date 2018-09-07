@@ -118,3 +118,10 @@ table.aui>tbody>tr>td
 .cv-global-level-header, .aui-page-panel-content {
     padding: 0 30px !important;
 }
+.subheader-web-panels, .cv-description {
+ margin: 0 !important; 
+ padding: 0 !important;
+}
+.cv-global-level-title {
+ display: inline !important;   
+}
