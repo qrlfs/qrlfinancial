@@ -125,3 +125,6 @@ table.aui>tbody>tr>td
 .cv-global-level-title {
  display: inline !important;   
 }
+#requests-nav-dropdown li a:hover {
+    background: #3572b0;
+}
