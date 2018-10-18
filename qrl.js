@@ -98,7 +98,7 @@ $(document).ready(function() {
   if ($("#modal_leavingPage").length) {
     var t = $("#modal_leavingPage .modal-title");
     var h = $("#modal_leavingPage .modal-header");
-    h.after("<div class='modal-body'>" + t.text() + "</div>");
+    h.after("<div class='modal-body'><p>" + t.text() + "</p><p>Would you like to continue?</p></div>");
     t.text("You're about to leave the QRL Financial Services website.");
   }
   // initialize cost-to-service calculator
