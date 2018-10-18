@@ -94,6 +94,13 @@ $(document).ready(function() {
     var r = window.location.hash.replace("#", "");
     $("#resource" + r).collapse("show");
   }
+  // fix the speed bump modal arrangement
+  if ($("#modal_leavingPage").length) {
+    var t = $("#modal_leavingPage .modal-title");
+    var h = $("#modal_leavingPage .modal-header");
+    h.after("<div class='modal-body'>" + t.text() + "</div>");
+    t.text("You're about to leave the QRL Financial Services website.");
+  }
   // initialize cost-to-service calculator
   if ($(".cost-to-service").length) {
     // add math functions on blur
