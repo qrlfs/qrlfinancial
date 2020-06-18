@@ -229,6 +229,12 @@ function partner_click() {
      window.location.href = "/Partner/Home";
   }
 }
+// utility to add days to a date
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
 // utility to get query string parameter by name
 function getParameterByName(name) {
   var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
