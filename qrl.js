@@ -172,6 +172,7 @@ $(document).ready(function() {
     $("h3.caption.ng-scope").replaceWith('<h1>' + $("h3.caption.ng-scope").html() + '</h1>');
     $(".nav-upload").addClass("active");
   }
+  loadClosingCalendar();
 });
 // activate_login() highlights the login area
 function activate_login() {
@@ -331,42 +332,44 @@ function updateSummary() {
   }
 }
 // Closing Calendar
-if ($(".closing-calendar").length) {
-  // closing_dates variable populated via data language
-  // closing_dates.calendar_date = date
-  // closing_dates.closing_count = count
-  // by default, all days are disabled
-  // starting 8 calendar days from today, enable closing dates up to 60 days in the future
-  var events = [];
-  var maxFiles = 12;
-  var i;
-  for (i = 8; i < 60; i++) {
-    var today = new Date();
-    var eventDate = today.addDays(i);
-    var eventDateStr = eventDate.toLocaleDateString("en-US");
-    // find the date in the closing_dates list if it's count exceeds the limit;
-    var result = closing_dates.filter(closing_date => {
-      return closing_date.calendar_date == eventDateStr && closing_date.closing_count >= maxFiles;
-    })
-    if (result.length || eventDate.getDay() == 0 || eventDate.getDay() == 6) {     
-      // date is weekend or full - don't enable
-    } else {
-      // date is available - enable it;
-      var event_obj = { id: 'closing_count_' + i.toString(), title: 'Full', allDay: true, start: eventDate, end: eventDate, rendering: 'background', backgroundColor: '#b0f1b2'}
-      events.push(event_obj)
-    }  
+function loadClosingCalendar() {
+  if ($(".closing-calendar").length) {
+    // closing_dates variable populated via data language
+    // closing_dates.calendar_date = date
+    // closing_dates.closing_count = count
+    // by default, all days are disabled
+    // starting 8 calendar days from today, enable closing dates up to 60 days in the future
+    var events = [];
+    var maxFiles = 12;
+    var i;
+    for (i = 8; i < 60; i++) {
+      var today = new Date();
+      var eventDate = today.addDays(i);
+      var eventDateStr = eventDate.toLocaleDateString("en-US");
+      // find the date in the closing_dates list if it's count exceeds the limit;
+      var result = closing_dates.filter(function(closing_date) {
+        return closing_date.calendar_date == eventDateStr && closing_date.closing_count >= maxFiles;
+      });
+      if (result.length || eventDate.getDay() == 0 || eventDate.getDay() == 6) {     
+        // date is weekend or full - don't enable
+      } else {
+        // date is available - enable it;
+        var event_obj = { id: 'closing_count_' + i.toString(), title: 'Full', allDay: true, start: eventDate, end: eventDate, rendering: 'background', backgroundColor: '#b0f1b2'}
+        events.push(event_obj)
+      }  
+    }
+    var calEl = $(".closing-calendar");
+    if (calEl.length) {
+      var cal = new FullCalendar.Calendar(calEl[0], {
+        plugins: [ 'dayGrid' ],
+        defaultView: 'dayGridMonth',
+        timeZone: 'UTC',
+        events: events,
+        contentHeight: 600,
+        fixedWeekCount: false
+      });
+      cal.render();
+    }
+    $(".calendar-refresh-date").html(new Date().toLocaleString("en-US"));
   }
-  var calEl = $(".closing-calendar");
-  if (calEl.length) {
-    var cal = new FullCalendar.Calendar(calEl[0], {
-      plugins: [ 'dayGrid' ],
-      defaultView: 'dayGridMonth',
-      timeZone: 'UTC',
-      events: events,
-      contentHeight: 600,
-      fixedWeekCount: false
-    });
-    cal.render();
-  }
-  $(".calendar-refresh-date").html(new Date().toLocaleString("en-US"));
 }
