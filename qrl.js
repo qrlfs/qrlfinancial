@@ -389,7 +389,7 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
       }
     }        
   }
-  var calEl = $(".closing-calendar_");
+  var calEl = $(".closing-calendar");
   if (calEl.length) {
     var cal = new FullCalendar.Calendar(calEl[0], {
       plugins: [ 'dayGrid' ],
