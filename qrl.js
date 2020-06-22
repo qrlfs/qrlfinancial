@@ -350,7 +350,11 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   for (i = minDaysOut; i < maxDaysOut; i++) {
     var today = new Date();
     var eventDate = today.addDays(i);
-    var eventDateStr = eventDate.toLocaleDateString("en-US");
+    var eventDateStr = eventDate.toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    }).replace(/[^ -~]/g,'');
     // find the date in the closing_dates list if it's count exceeds the limit;
     var result = closing_dates.filter(function(closing_date) {
       return closing_date.calendar_date == eventDateStr;
@@ -371,7 +375,7 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
         icon_color = ((result.closing_count < (maxFiles * 2 / 3)) ? '#008000' : ((result.closing_count < (maxFiles * 5 / 6)) ? '#ffff00' : '#ff0000'));
         var text_color = ((icon_color == '#ffff00') ? '#000000' : '#ffffff');
         icon_obj = { id: 'icon_event_' + i.toString(), title: result.closing_count.toString(), allDay: true, start: eventDate, end: eventDate, backgroundColor: icon_color, borderColor: icon_color, textColor: text_color, classNames: 'icon_event'}
-        events.push(icon_obj);          
+        events.push(icon_obj);
       }        
     } else {
       // date has no scheduled closings and is available - enable it;
