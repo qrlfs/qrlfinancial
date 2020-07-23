@@ -173,6 +173,9 @@ $(document).ready(function() {
     $(".nav-upload").addClass("active");
   }
   if ($(".closing-calendar").length) {
+    var max_files = 24;
+    var min_days_out = 8;
+    var max_days_out = 60;
     loadClosingCalendar(max_files,min_days_out,max_days_out);
   }
 });
@@ -342,9 +345,6 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   // most files that can be closed on a given day represented by maxFiles
   // starting minDaysOut calendar days from today, enable closing dates up to maxDaysOut days in the future
   var events = [];
-  //var maxFiles = 24;
-  //var minDaysOut = 8;
-  //var maxDaysOut = 90;
   var opts = { shiftSaturdayHolidays: false, shiftSundayHolidays: true};
   var i;
   for (i = minDaysOut; i < maxDaysOut; i++) {
