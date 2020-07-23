@@ -374,7 +374,7 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
         events.push(event_obj)          
         icon_color = ((result.closing_count < (maxFiles * 2 / 3)) ? '#008000' : ((result.closing_count < (maxFiles * 5 / 6)) ? '#ffff00' : '#ff0000'));
         var text_color = ((icon_color == '#ffff00') ? '#000000' : '#ffffff');
-        icon_obj = { id: 'icon_event_' + i.toString(), title: result.closing_count.toString(), allDay: true, start: eventDate, end: eventDate, backgroundColor: icon_color, borderColor: icon_color, textColor: text_color, classNames: 'icon_event'}
+        icon_obj = { id: 'icon_event_' + i.toString(), title: '', allDay: true, start: eventDate, end: eventDate, backgroundColor: icon_color, borderColor: icon_color, textColor: text_color, classNames: 'icon_event'}
         events.push(icon_obj);
       }        
     } else {
@@ -387,7 +387,7 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
         } else {
           event_obj = { id: 'background_event_' + i.toString(), title: 'Available', allDay: true, start: eventDate, end: eventDate, rendering: 'background', backgroundColor: '#b0f1b2'}
           events.push(event_obj)
-          icon_obj = { id: 'icon_event_' + i.toString(), title: '0', allDay: true, start: eventDate, end: eventDate, backgroundColor: icon_color, borderColor: icon_color, classNames: 'icon_event'}
+          icon_obj = { id: 'icon_event_' + i.toString(), title: '', allDay: true, start: eventDate, end: eventDate, backgroundColor: icon_color, borderColor: icon_color, classNames: 'icon_event'}
           events.push(icon_obj);
         }
       }
