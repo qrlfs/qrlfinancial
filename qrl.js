@@ -173,9 +173,7 @@ $(document).ready(function() {
     $(".nav-upload").addClass("active");
   }
   if ($(".closing-calendar").length) {
-    var max_files = 24;
-    var min_days_out = 8;
-    var max_days_out = 60;
+    // variables are set on the closing calendar B2B page
     loadClosingCalendar(max_files,min_days_out,max_days_out);
   }
 });
