@@ -346,7 +346,7 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   var opts = { shiftSaturdayHolidays: false, shiftSundayHolidays: true};
   var i;  
   // if it's after 4 PM CT, calendar is one more day out
-  if (new Date(new Date().toLocaleString("en-US", {timeZone: "America/Chicago"})).getHours() > 16) then {
+  if (new Date(new Date().toLocaleString("en-US", {timeZone: "America/Chicago"})).getHours() > 16) {
     minDaysOut++;
   }    
   for (i = minDaysOut; i < maxDaysOut; i++) {
