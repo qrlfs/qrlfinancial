@@ -344,7 +344,11 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   // starting minDaysOut calendar days from today, enable closing dates up to maxDaysOut days in the future
   var events = [];
   var opts = { shiftSaturdayHolidays: false, shiftSundayHolidays: true};
-  var i;
+  var i;  
+  // if it's after 4 PM CT, calendar is one more day out
+  if (new Date(new Date().toLocaleString("en-US", {timeZone: "America/Chicago"})).getHours() > 16) then {
+    minDaysOut++;
+  }    
   for (i = minDaysOut; i < maxDaysOut; i++) {
     var today = new Date();
     var eventDate = today.addDays(i);
