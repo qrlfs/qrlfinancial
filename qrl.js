@@ -218,6 +218,16 @@ Date.prototype.addDays = function(days) {
     date.setDate(date.getDate() + days);
     return date;
 }
+// utility to return the time in standard time (vs. daylight time)
+Date.prototype.stdTimezoneOffset = function () {
+    var jan = new Date(this.getFullYear(), 0, 1);
+    var jul = new Date(this.getFullYear(), 6, 1);
+    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+}
+// utility to determine if the datetime is observing daylight time (vs. standard time)
+Date.prototype.isDstObserved = function () {
+    return this.getTimezoneOffset() < this.stdTimezoneOffset();
+}
 // utility to get query string parameter by name
 function getParameterByName(name) {
   var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
@@ -334,14 +344,6 @@ function updateSummary() {
     $("#impact").switchClass("success", "danger");    
   }
 }
-Date.prototype.stdTimezoneOffset = function () {
-    var jan = new Date(this.getFullYear(), 0, 1);
-    var jul = new Date(this.getFullYear(), 6, 1);
-    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-}
-Date.prototype.isDstObserved = function () {
-    return this.getTimezoneOffset() < this.stdTimezoneOffset();
-}
 // Closing Calendar
 function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   // closing_dates variable populated via data language
@@ -359,7 +361,8 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   if (new Date().isDstObserved()) {
     ctOffset = 300;
   }
-  if (new Date(new Date().getTime() + ((d.getTimezoneOffset() - ctOffset) * 60000));.getHours() > 16) {
+  var d = new Date();
+  if (new Date(d.getTime() + ((d.getTimezoneOffset() - ctOffset) * 60000)).getHours() > 16) {
     minDaysOut++;
   }
   for (i = minDaysOut; i < maxDaysOut; i++) {
