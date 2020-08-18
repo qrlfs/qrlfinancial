@@ -362,7 +362,7 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
     ctOffset = 300;
   }
   var d = new Date();
-  if (new Date(d.getTime() + ((d.getTimezoneOffset() - ctOffset) * 60000)).getHours() > 16) {
+  if (new Date(d.getTime() + ((d.getTimezoneOffset() - ctOffset) * 60000)).getHours() >= 16) {
     minDaysOut++;
   }
   for (i = minDaysOut; i < maxDaysOut; i++) {
