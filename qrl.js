@@ -334,6 +334,14 @@ function updateSummary() {
     $("#impact").switchClass("success", "danger");    
   }
 }
+Date.prototype.stdTimezoneOffset = function () {
+    var jan = new Date(this.getFullYear(), 0, 1);
+    var jul = new Date(this.getFullYear(), 6, 1);
+    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+}
+Date.prototype.isDstObserved = function () {
+    return this.getTimezoneOffset() < this.stdTimezoneOffset();
+}
 // Closing Calendar
 function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   // closing_dates variable populated via data language
@@ -346,9 +354,14 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   var opts = { shiftSaturdayHolidays: false, shiftSundayHolidays: true};
   var i;  
   // if it's after 4 PM CT, calendar is one more day out
-  if (new Date(new Date().toLocaleString("en-US", {timeZone: "America/Chicago"})).getHours() > 16) {
+  // find CT offset (based on if DST is currently observed)
+  var ctOffset = 360;
+  if (new Date().isDstObserved()) {
+    ctOffset = 300;
+  }
+  if (new Date(new Date().getTime() + ((d.getTimezoneOffset() - ctOffset) * 60000));.getHours() > 16) {
     minDaysOut++;
-  }    
+  }
   for (i = minDaysOut; i < maxDaysOut; i++) {
     var today = new Date();
     var eventDate = today.addDays(i);
