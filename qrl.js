@@ -218,6 +218,20 @@ Date.prototype.addDays = function(days) {
     date.setDate(date.getDate() + days);
     return date;
 }
+// utility to add *business& days to a date
+Date.prototype.businessDays = function( d ){
+  var t = new Date( this ); // copy date.
+  var opts = { shiftSaturdayHolidays: false, shiftSundayHolidays: true};
+  while( d ){ // we loop while d is not zero...   
+    t.setDate( t.getDate() + 1 ); // set a date and test it
+    switch( t.getDay() ){ // switch is used to allow easier addition of other days of the week
+      case 0: case 6: break;// sunday & saturday
+    default: // check if we are a holiday or not
+      d -= isAHoliday( t, opts ) ? 0 : 1; 
+    }
+  }
+  return t;
+}
 // utility to return the time in standard time (vs. daylight time)
 Date.prototype.stdTimezoneOffset = function () {
     var jan = new Date(this.getFullYear(), 0, 1);
@@ -351,23 +365,22 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   // closing_dates.closing_count = count
   // by default, all days are disabled
   // most files that can be closed on a given day represented by maxFiles
-  // starting minDaysOut calendar days from today, enable closing dates up to maxDaysOut days in the future
-  var events = [];
+  // starting minDaysOut *business* days from today, enable closing dates up to maxDaysOut *business* days in the future
   var opts = { shiftSaturdayHolidays: false, shiftSundayHolidays: true};
+  var events = [];
   var i;  
-  // if it's after 4 PM CT, calendar is one more day out
   // find CT offset (based on if DST is currently observed)
+  var today = new Date();
   var ctOffset = 360;
-  if (new Date().isDstObserved()) {
+  if (today.isDstObserved()) {
     ctOffset = 300;
   }
-  var d = new Date();
-  if (new Date(d.getTime() + ((d.getTimezoneOffset() - ctOffset) * 60000)).getHours() >= 16) {
-    minDaysOut++;
+  if (new Date(today.getTime() + ((today.getTimezoneOffset() - ctOffset) * 60000)).getHours() >= 16 || today.getDay() == 0 || today.getDay() == 6 || isAHoliday(today, opts)) {
+    // it's past 4 PM CT, or a weekend day, or a holiday; so it's effectively the following business day
+    today = today.businessDays(1);
   }
-  for (i = minDaysOut; i < maxDaysOut; i++) {
-    var today = new Date();
-    var eventDate = today.addDays(i);
+  for (i = minDaysOut; i < maxDaysOut; i++) {  
+    var eventDate = today.businessDays(i);    
     var eventDateStr = eventDate.toLocaleDateString('en-US', {
       day: 'numeric',
       month: 'numeric',
@@ -383,9 +396,9 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
     // set date background - green if enabled, gray if disabled (dates are gray by default)
     if (result.length) { 
       result = result[0];      
-      if (result.closing_count >= maxFiles || eventDate.getDay() == 0 || eventDate.getDay() == 6) {
-        // date is weekend or full - don't enable  
-        // no icon for full days?
+      if (result.closing_count >= maxFiles) {
+        // date is full - don't enable  
+        // no icon for full days
       } else {
         // date has scheduled closings and isn't full
         event_obj = { id: 'background_event_' + i.toString(), title: 'Available', allDay: true, start: eventDate, end: eventDate, rendering: 'background', backgroundColor: '#b0f1b2'}
@@ -397,20 +410,26 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
       }        
     } else {
       // date has no scheduled closings and is available - enable it;
-      if (eventDate.getDay() != 0 && eventDate.getDay() != 6) {
-        if (isAHoliday(eventDate, opts)) {
-          // Date is a holiday - do not enable
-          icon_obj = { id: 'holiday_event_' + i.toString(), title: 'Holiday', allDay: true, start: eventDate, end: eventDate, backgroundColor: '#9a0000', borderColor: '#9a0000', textColor: '#ffffff', classNames: 'holiday_event'}
-          events.push(icon_obj);
-        } else {
-          event_obj = { id: 'background_event_' + i.toString(), title: 'Available', allDay: true, start: eventDate, end: eventDate, rendering: 'background', backgroundColor: '#b0f1b2'}
-          events.push(event_obj)
-          icon_obj = { id: 'icon_event_' + i.toString(), title: '', allDay: true, start: eventDate, end: eventDate, backgroundColor: icon_color, borderColor: icon_color, classNames: 'icon_event'}
-          events.push(icon_obj);
-        }
-      }
-    }        
+      event_obj = { id: 'background_event_' + i.toString(), title: 'Available', allDay: true, start: eventDate, end: eventDate, rendering: 'background', backgroundColor: '#b0f1b2'}
+      events.push(event_obj)
+      icon_obj = { id: 'icon_event_' + i.toString(), title: '', allDay: true, start: eventDate, end: eventDate, backgroundColor: icon_color, borderColor: icon_color, classNames: 'icon_event'}
+      events.push(icon_obj);
+    }
   }
+  // add holidays to calendar  
+  var holStart = new Date(today.getFullYear(), today.getMonth(), 1); // first day of current month
+  var holEnd = new Date(today.businessDays(maxDaysOut).getFullYear(), today.businessDays(maxDaysOut).getMonth() + 1, 0); // last day of max month
+  var loop = new Date(holStart);
+  while(loop <= holEnd){
+    if (isAHoliday(loop, opts)) {
+      var eventDate = new Date(loop);
+      icon_obj = { id: 'holiday_event', title: 'Holiday', allDay: true, start: eventDate, end: eventDate, backgroundColor: '#9a0000', borderColor: '#9a0000', textColor: '#ffffff', classNames: 'holiday_event'}
+      events.push(icon_obj);
+    }
+    var newDate = loop.setDate(loop.getDate() + 1);
+    loop = new Date(newDate);
+  }
+  // initialize calendar
   var calEl = $(".closing-calendar");
   if (calEl.length) {
     var cal = new FullCalendar.Calendar(calEl[0], {
@@ -423,5 +442,5 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
     });
     cal.render();
   }
-  $(".calendar-refresh-date").html(new Date().toLocaleString("en-US"));  
+  $(".calendar-refresh-date").html(new Date().toLocaleString("en-US"));    
 }
