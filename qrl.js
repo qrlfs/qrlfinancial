@@ -174,7 +174,7 @@ $(document).ready(function() {
   }
   if ($(".closing-calendar").length) {
     // variables are set on the closing calendar B2B page
-    loadClosingCalendar(".closing-calendar",max_files,min_days_out,max_days_out,pct_yellow,pct_red,date_mods);
+    loadClosingCalendar(".closing-calendar",max_files,min_days_out,max_days_out,pct_yellow,pct_red,date_mods,holiday_mods);
   }
 });
 // activate_login() highlights the login area
