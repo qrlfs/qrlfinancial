@@ -174,7 +174,7 @@ $(document).ready(function() {
   }
   if ($(".closing-calendar").length) {
     // variables are set on the closing calendar B2B page
-    loadClosingCalendar(max_files,min_days_out,max_days_out);
+    loadClosingCalendar(".closing-calendar",max_files,min_days_out,max_days_out,pct_yellow,pct_red,date_mods);
   }
 });
 // activate_login() highlights the login area
@@ -359,7 +359,7 @@ function updateSummary() {
   }
 }
 // Closing Calendar
-function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
+function loadClosingCalendar(calDiv,maxFiles,minDaysOut,maxDaysOut,pctY,pctR,dateMods) {
   // closing_dates variable populated via data language
   // closing_dates.calendar_date = date
   // closing_dates.closing_count = count
@@ -375,35 +375,51 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
   if (today.isDstObserved()) {
     ctOffset = 300;
   }
+  // identify the first day (generally today)
   if (new Date(today.getTime() + ((today.getTimezoneOffset() - ctOffset) * 60000)).getHours() >= 16 || today.getDay() == 0 || today.getDay() == 6 || isAHoliday(today, opts)) {
     // it's past 4 PM CT, or a weekend day, or a holiday; so it's effectively the following business day
     today = today.businessDays(1);
   }
+  // loop through all potentially available days
   for (i = minDaysOut; i < maxDaysOut; i++) {  
     var eventDate = today.businessDays(i);    
     var eventDateStr = eventDate.toLocaleDateString('en-US', {
       day: 'numeric',
       month: 'numeric',
       year: 'numeric'
-    }).replace(/[^ -~]/g,'');
+    }).replace(/[^ -~]/g,'');    
+    // find the date in the list of dates with modified capacity
+    var dateMax = maxFiles;
+    var dateMaxFiles = dateMods.filter(function(mod) {
+      return mod.date == eventDateStr;
+    });
+    if (dateMaxFiles.length) {
+      dateMax = dateMaxFiles[0].capacity;      
+    }    
     // find the date in the closing_dates list if it's count exceeds the limit;
     var result = closing_dates.filter(function(closing_date) {
       return closing_date.calendar_date == eventDateStr;
-    });
+    });    
+    // capacity is limited via manual modification but there are no closings scheduled; add it so that it can be properly assessed
+    if (dateMaxFiles.length && !result.length) {
+      result[0] = { calendar_date: eventDateStr, closing_count: 0 };
+    }
+    // set defaults 
     var event_obj = {};
     var icon_color = '#008000';
     var icon_obj = {};
     // set date background - green if enabled, gray if disabled (dates are gray by default)
     if (result.length) { 
-      result = result[0];      
-      if (result.closing_count >= maxFiles) {
+      result = result[0];
+      console.log('date: ' + eventDate + ' capacity: ' + dateMax);
+      if (result.closing_count >= dateMax) {
         // date is full - don't enable  
         // no icon for full days
       } else {
-        // date has scheduled closings and isn't full
+        // date has scheduled closings and isn't full; assess the appropriate event properties and icon color
         event_obj = { id: 'background_event_' + i.toString(), title: 'Available', allDay: true, start: eventDate, end: eventDate, rendering: 'background', backgroundColor: '#b0f1b2'}
         events.push(event_obj)          
-        icon_color = ((result.closing_count < (maxFiles * 2 / 3)) ? '#008000' : ((result.closing_count < (maxFiles * 5 / 6)) ? '#ffff00' : '#ff0000'));
+        icon_color = ((result.closing_count < (dateMax * pctY)) ? '#008000' : ((result.closing_count < (dateMax * pctR)) ? '#ffff00' : '#ff0000'));
         var text_color = ((icon_color == '#ffff00') ? '#000000' : '#ffffff');
         icon_obj = { id: 'icon_event_' + i.toString(), title: '', allDay: true, start: eventDate, end: eventDate, backgroundColor: icon_color, borderColor: icon_color, textColor: text_color, classNames: 'icon_event'}
         events.push(icon_obj);
@@ -430,7 +446,7 @@ function loadClosingCalendar(maxFiles,minDaysOut,maxDaysOut) {
     loop = new Date(newDate);
   }
   // initialize calendar
-  var calEl = $(".closing-calendar");
+  var calEl = $(calDiv);
   if (calEl.length) {
     var cal = new FullCalendar.Calendar(calEl[0], {
       plugins: [ 'dayGrid' ],
