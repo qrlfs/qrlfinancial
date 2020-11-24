@@ -219,7 +219,8 @@ Date.prototype.addDays = function(days) {
     return date;
 }
 // utility to add business days to a date
-Date.prototype.businessDays = function( d, custHol = [] ){
+Date.prototype.businessDays = function( d, custHol ){
+  custHol = custHol || [];
   var t = new Date( this ); // copy date.
   var opts = { shiftSaturdayHolidays: false, shiftSundayHolidays: true};
   while( d ){ // we loop while d is not zero...   
