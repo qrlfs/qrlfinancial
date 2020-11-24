@@ -218,8 +218,8 @@ Date.prototype.addDays = function(days) {
     date.setDate(date.getDate() + days);
     return date;
 }
-// utility to add *business& days to a date
-Date.prototype.businessDays = function( d ){
+// utility to add business days to a date
+Date.prototype.businessDays = function( d, custHol = [] ){
   var t = new Date( this ); // copy date.
   var opts = { shiftSaturdayHolidays: false, shiftSundayHolidays: true};
   while( d ){ // we loop while d is not zero...   
@@ -227,7 +227,7 @@ Date.prototype.businessDays = function( d ){
     switch( t.getDay() ){ // switch is used to allow easier addition of other days of the week
       case 0: case 6: break;// sunday & saturday
     default: // check if we are a holiday or not
-      d -= isAHoliday( t, opts ) ? 0 : 1; 
+      d -= isAHoliday( t, opts, custHol ) ? 0 : 1; 
     }
   }
   return t;
