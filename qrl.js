@@ -360,7 +360,7 @@ function updateSummary() {
   }
 }
 // Closing Calendar
-function loadClosingCalendar(calDiv,maxFiles,minDaysOut,maxDaysOut,pctY,pctR,dateMods) {
+function loadClosingCalendar(calDiv,maxFiles,minDaysOut,maxDaysOut,pctY,pctR,dateMods,custHol) {
   // closing_dates variable populated via data language
   // closing_dates.calendar_date = date
   // closing_dates.closing_count = count
@@ -377,13 +377,13 @@ function loadClosingCalendar(calDiv,maxFiles,minDaysOut,maxDaysOut,pctY,pctR,dat
     ctOffset = 300;
   }
   // identify the first day (generally today)
-  if (new Date(today.getTime() + ((today.getTimezoneOffset() - ctOffset) * 60000)).getHours() >= 16 || today.getDay() == 0 || today.getDay() == 6 || isAHoliday(today, opts)) {
+  if (new Date(today.getTime() + ((today.getTimezoneOffset() - ctOffset) * 60000)).getHours() >= 16 || today.getDay() == 0 || today.getDay() == 6 || isAHoliday(today, opts, custHol)) {
     // it's past 4 PM CT, or a weekend day, or a holiday; so it's effectively the following business day
-    today = today.businessDays(1);
+    today = today.businessDays(1, custHol);
   }
   // loop through all potentially available days
   for (i = minDaysOut; i < maxDaysOut; i++) {  
-    var eventDate = today.businessDays(i);    
+    var eventDate = today.businessDays(i, custHol);    
     var eventDateStr = eventDate.toLocaleDateString('en-US', {
       day: 'numeric',
       month: 'numeric',
@@ -412,7 +412,6 @@ function loadClosingCalendar(calDiv,maxFiles,minDaysOut,maxDaysOut,pctY,pctR,dat
     // set date background - green if enabled, gray if disabled (dates are gray by default)
     if (result.length) { 
       result = result[0];
-      console.log('date: ' + eventDate + ' capacity: ' + dateMax);
       if (result.closing_count >= dateMax) {
         // date is full - don't enable  
         // no icon for full days
@@ -435,10 +434,10 @@ function loadClosingCalendar(calDiv,maxFiles,minDaysOut,maxDaysOut,pctY,pctR,dat
   }
   // add holidays to calendar  
   var holStart = new Date(today.getFullYear(), today.getMonth(), 1); // first day of current month
-  var holEnd = new Date(today.businessDays(maxDaysOut).getFullYear(), today.businessDays(maxDaysOut).getMonth() + 1, 0); // last day of max month
+  var holEnd = new Date(today.businessDays(maxDaysOut, custHol).getFullYear(), today.businessDays(maxDaysOut, custHol).getMonth() + 1, 0); // last day of max month
   var loop = new Date(holStart);
   while(loop <= holEnd){
-    if (isAHoliday(loop, opts)) {
+    if (isAHoliday(loop, opts, custHol)) {
       var eventDate = new Date(loop);
       icon_obj = { id: 'holiday_event', title: 'Holiday', allDay: true, start: eventDate, end: eventDate, backgroundColor: '#9a0000', borderColor: '#9a0000', textColor: '#ffffff', classNames: 'holiday_event'}
       events.push(icon_obj);
