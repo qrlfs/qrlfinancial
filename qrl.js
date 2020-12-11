@@ -176,6 +176,12 @@ $(document).ready(function() {
     // variables are set on the closing calendar B2B page
     loadClosingCalendar(".closing-calendar",max_files,min_days_out,max_days_out,pct_yellow,pct_red,date_mods,holiday_mods);
   }
+  if ($(".turn_times").length) {
+    // variables are set on the Partner Home page
+    $("#uw_pur").text(uw_pur);
+    $("#uw_refi").text(uw_refi);
+    $("#postcl").text(postcl);
+  }
 });
 // activate_login() highlights the login area
 function activate_login() {
