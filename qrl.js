@@ -171,7 +171,14 @@ $(document).ready(function() {
     $(".question_label").removeClass("question_label").css("font-weight","normal");
     $("h3.caption.ng-scope").replaceWith('<h1>' + $("h3.caption.ng-scope").html() + '</h1>');
     $(".nav-upload").addClass("active");
-  }
+  }    
+  // allows manual bypass of speedbump for approvedfast or ffbf-hosted content
+  $("a[href*='.ffbf.com']").addClass("bypass-bump");
+  $("a[href*='.qrlfinancial.com']").addClass("bypass-bump");
+  $(".bypass-bump").each(function() {
+    var anchor = $(this);
+    anchor.unbind("click");
+  });
   if ($(".closing-calendar").length) {
     // variables are set on the closing calendar B2B page
     loadClosingCalendar(".closing-calendar",max_files,min_days_out,max_days_out,pct_yellow,pct_red,date_mods,holiday_mods);
