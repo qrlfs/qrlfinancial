@@ -5,8 +5,16 @@ $('head').append('<link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.
 $('head').append('<link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.2/main.min.css" rel="stylesheet">'); 
 // add script resources
 $.getScript("https://cdn.jsdelivr.net/npm/autonumeric@4.0.1");
-$.getScript("https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.2/main.min.js", calendarJSLoaded);
-$.getScript("https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.2/main.min.js");
+$.getScript("https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.2/main.min.js", fullcalendarCoreLoaded);
+function fullcalendarCoreLoaded() {
+  $.getScript("https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.2/main.min.js", fullcalendarDaygridLoaded);
+}
+function fullcalendarDaygridLoaded() {  
+  if ($(".closing-calendar").length) {
+    // variables are set on the closing calendar B2B page
+    loadClosingCalendar(".closing-calendar",max_files,min_days_out,max_days_out,pct_yellow,pct_red,date_mods,holiday_mods);
+  }
+}
 // (document).ready() runs when the page has loaded
 $(document).ready(function() {
   // configure login
@@ -197,12 +205,6 @@ $(document).ready(function() {
     $("#postcl").text(postcl);
   }
 });
-function calendarJSLoaded() {  
-  if ($(".closing-calendar").length) {
-    // variables are set on the closing calendar B2B page
-    loadClosingCalendar(".closing-calendar",max_files,min_days_out,max_days_out,pct_yellow,pct_red,date_mods,holiday_mods);
-  }
-}
 // activate_login() highlights the login area
 function activate_login() {
   if ($("#login_box.login_active").length) {
