@@ -5,8 +5,8 @@ $('head').append('<link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.
 $('head').append('<link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.2/main.min.css" rel="stylesheet">'); 
 // add script resources
 $.getScript("https://cdn.jsdelivr.net/npm/autonumeric@4.0.1");
-$.getScript("https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.2/main.min.js");
-$.getScript("https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.2/main.min.js", calendarJSLoaded);
+$.getScript("https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.2/main.min.js", calendarJSLoaded);
+$.getScript("https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.4.2/main.min.js");
 // (document).ready() runs when the page has loaded
 $(document).ready(function() {
   // configure login
